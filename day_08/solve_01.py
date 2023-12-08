@@ -11,19 +11,13 @@ def data_reader(path: str) -> tuple[str, dict[str, tuple[str, str]]]:
 
 def solution(puzzle_data: tuple[str, dict[str, tuple[str, str]]]) -> int:
     data_path, data_map = puzzle_data
-    my_place = [point for point in data_map if point.endswith('A')]
-    start_point = my_place[0]
-    turn = 1
-    my_place[0] = data_map.get(my_place[0])[int(data_path[turn % len(data_path)])]
-    while my_place[0] != start_point:
-        # for k in range(len(my_place)):
-        my_place[0] = data_map.get(my_place[0])[int(data_path[turn % len(data_path)])]
+    my_place = 'AAA'
+    turn = 0
+    while my_place != 'ZZZ':
+        my_place = data_map.get(my_place)[int(data_path[turn % len(data_path)])]
         turn += 1
-        # if len(list(filter(lambda x: x.endswith('Z'), my_place))) >= 3:
-        print(turn, my_place)
-    print(my_place)
     return turn
 
 
-data = data_reader('day_08/input_data.txt')
+data = data_reader('input_data.txt')
 print(solution(data))
