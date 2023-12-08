@@ -17,7 +17,7 @@ def data_reader(path: str) -> dict[int, list[list]]:
     return result
 
 
-seeds_data = data_reader('test_data.txt')
+seeds_data = data_reader('input_data.txt')
 
 
 def solution(data: dict[int, [list[list]]]) -> int:
@@ -25,15 +25,18 @@ def solution(data: dict[int, [list[list]]]) -> int:
     print(seeds)
     for stage in range(1, len(data)):
         print('----------------')
-        for seed_set in data.get(stage):
-            for i in range(len(seeds)):
+        for i in range(len(seeds)):
+            for seed_set in data.get(stage):
+
                 start, start_2, freq = seed_set
-                if start_2 <= seeds[i] < start_2 + freq:
+                if start_2 <= seeds[i] and seeds[i] < start_2 + freq:
                     print(start, start_2, freq)
                     if start > start_2:
                         seeds[i] += start - start_2
+                        break
                     else:
                         seeds[i] -= start_2 - start
+                        break
             print(seeds)
     return min(seeds)
 
