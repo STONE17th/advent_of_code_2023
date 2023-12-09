@@ -9,19 +9,23 @@ def data_reader(path: str) -> tuple[str, dict[str, tuple[str, str]]]:
     return path_data, result_map
 
 
+# 19185263738116
 def solution(puzzle_data: tuple[str, dict[str, tuple[str, str]]]) -> int:
     data_path, data_map = puzzle_data
-    # my_place = [point for point in data_map if point.endswith('A')]
-    my_place = ['BSZ', 'GCF', 'TRJ', 'STL', 'GJC', 'MMH']
-    turn = 1002790137
-    while not all(map(lambda x: x.endswith('Z'), my_place)):
+    my_place = [point for point in data_map if point.endswith('A')]
+    turn = 0
+    cycle_finish = [0, 0, 0, 0, 0, 0]
+    while not all(map(lambda x: x != 0, cycle_finish)):
         for k in range(len(my_place)):
             my_place[k] = data_map.get(my_place[k])[int(data_path[turn % len(data_path)])]
+            if my_place[k].endswith('Z') and not cycle_finish[k]:
+                cycle_finish[k] = turn
         turn += 1
-        if len(list(filter(lambda x: x.endswith('Z'), my_place))) >= 3:
-            print(turn, my_place)
-    print(my_place)
-    return turn
+    total = 1
+    for position in cycle_finish:
+        cur = (position - 1) // len(data_path) + 1
+        total *= cur
+    return total * len(data_path)
 
 
 data = data_reader('input_data.txt')
