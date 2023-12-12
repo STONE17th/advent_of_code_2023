@@ -14,7 +14,7 @@ def solution(puzzle_data: tuple[str, dict[str, tuple[str, str]]]) -> int:
     data_path, data_map = puzzle_data
     my_place = [point for point in data_map if point.endswith('A')]
     turn = 0
-    cycle_finish = [0, 0, 0, 0, 0, 0]
+    cycle_finish = [0]*len(my_place)
     while not all(map(lambda x: x != 0, cycle_finish)):
         for k in range(len(my_place)):
             my_place[k] = data_map.get(my_place[k])[int(data_path[turn % len(data_path)])]

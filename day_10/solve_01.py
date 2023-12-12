@@ -32,26 +32,19 @@ class Puzzle:
     def solve(self):
         cur_x, cur_y = self.start_coords
         start_list = []
-        for coord in [(1,0), (-1,0), (0, 1), (0,-1)]:
+        start_coord = {(1, 0): '|LJ', (-1, 0): '|F7', (0, 1): '-J7', (0, -1): '-FL'}
+        for coord, values in start_coord.items():
             x, y = cur_x + coord[0], cur_y + coord[1]
-            if coord == (1,0) and self.map[x][y].value in '|LJ':
-                start_list.append(self.map[x][y])
-            if coord == (-1,0) and self.map[x][y].value in '|F7':
-                start_list.append(self.map[x][y])
-            if coord == (0, -1) and self.map[x][y].value in '-FL':
-                start_list.append(self.map[x][y])
-            if coord == (0,1) and self.map[x][y].value in '-J7':
+            if self.map[x][y].value in values:
                 start_list.append(self.map[x][y])
         self.movement_list.append(start_list)
         while any(map(lambda x: len(x) > 0, self.movement_list)):
             current_list = self.movement_list.pop(0)
             self.counter += 1
-            print(current_list, self.movement_list, self.counter)
             new_list = set()
             if current_list:
                 for cell in current_list:
                     if cell.value in '7FL-J|' and cell.path == 0:
-                        print(cell.row, cell.index)
                         for coords in Cell.samples.get(cell.value):
                             if cell.value != 'S':
                                 cell.path = self.counter
@@ -60,10 +53,8 @@ class Puzzle:
                                     self.map[x][y].path == 0 and
                                     0 <= x < len(self.map) and
                                     0 <= y < len(self.map[x])):
-
                                 new_list.add(self.map[x][y])
             self.movement_list.append(new_list)
-
 
     def show(self, path: bool = True):
         result = []
@@ -95,7 +86,5 @@ puzzle.show(False)
 puzzle.solve()
 puzzle.show(True)
 print(puzzle.counter)
-
-
 
 # 6815

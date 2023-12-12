@@ -18,7 +18,6 @@ def solution(data: list[list[int]]) -> int:
         check_difference(local_list)
 
     for row in data:
-        # print(row)
         difference_list = [row]
         check_difference(row)
         for k in range(len(difference_list) - 1, 0, -1):
